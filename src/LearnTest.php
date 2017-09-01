@@ -86,7 +86,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
     protected function prevQuestion(){
         if($_COOKIE['skipCorrect'] == 1){$prim = $this->getIncomplete('prev');}
         elseif($this->currentQuestion() != 1 && $this->testInfo['category']){
-            $prim = self::$db->fetchColumn($this->questionsTable, array($this->testInfo['sort'] => array('<', $this->currentQuestion()), $this->testInfo['category'] => $this->testInfo['section'], 'includedintest' => $this->testInfo['key']), array('prim'), array($this->testInfo['sort'] => 'DESC'));
+            $prim = self::$db->fetchColumn($this->questionsTable, array($this->testInfo['sort'] => array('<', $this->currentQuestion()), $this->testInfo['category'] => $this->testInfo['section'], 'includedintest' => $this->testInfo['key']), array('prim'), 0, array($this->testInfo['sort'] => 'DESC'));
         }
         else{$prim = $this->getLastQuestion();}
         return '<div class="prevquestion btn btn-theory" id="'.$prim.'"><span class="fa fa-angle-left fa-fw"></span><span class="hidden-xs"> Previous</span></div>';
@@ -99,7 +99,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
     protected function nextQuestion(){
         if($_COOKIE['skipCorrect'] == 1){$prim = $this->getIncomplete();}
         elseif($this->currentQuestion() < $this->numQuestions() && $this->testInfo['category']){
-            $prim = self::$db->fetchColumn($this->questionsTable, array($this->testInfo['sort'] => array('>', $this->currentQuestion()), $this->testInfo['category'] => $this->testInfo['section'], 'includedintest' => $this->testInfo['key']), array('prim'), array($this->testInfo['sort'] => 'ASC'));
+            $prim = self::$db->fetchColumn($this->questionsTable, array($this->testInfo['sort'] => array('>', $this->currentQuestion()), $this->testInfo['category'] => $this->testInfo['section'], 'includedintest' => $this->testInfo['key']), array('prim'), 0, array($this->testInfo['sort'] => 'ASC'));
         }
         else{$prim = $this->getFirstQuestion();}
         return '<div class="nextquestion btn btn-theory" id="'.$prim.'"><span class="fa fa-angle-right fa-fw"></span><span class="hidden-xs"> Next</span></div>';
