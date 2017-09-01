@@ -15,7 +15,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
     public $progressTable = 'adi_test_progress';
     public $dsaCategoriesTable = 'adi_dsa_sections';
     
-    protected $scriptVar = 'questions';
+    protected $scriptVar = 'adiquestions';
     
     protected static $testType = 'adi';
     
