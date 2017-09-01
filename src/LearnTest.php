@@ -21,7 +21,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
     }
     
     /**
-     * Creates a new test for the 
+     * Creates a new test for the ADI Theory Test
      * @param int $sectionNo This should be the section number for the test
      */
     public function createNewTest($sectionNo = '1', $type = 'dsa'){
