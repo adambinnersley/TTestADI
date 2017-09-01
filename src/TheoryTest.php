@@ -107,6 +107,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
         $questioninfo = self::$db->select($this->questionsTable, array('prim' => $prim), array('prim', 'dsaband', 'dsaqposition'));
         $catinfo = self::$db->select($this->dsaCategoriesTable, array('section' => $questioninfo['dsaband']));
         
+        $info = array();
         $info['prim'] = $questioninfo['prim'];
         $info['cat'] = $catinfo['name'];
         $info['topic'] = $questioninfo['dsaqposition'];
