@@ -34,7 +34,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
         $this->setTest($theorytest);
         self::$user->checkUserAccess($theorytest, 'adi');
         $this->setTestName();
-        if(!$this->anyExisting()){
+        if($this->anyExisting() === false){
             $this->chooseQuestions($theorytest);
         }
         return $this->buildTest();
@@ -158,9 +158,9 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
         }
         
         $pass = true;
-        foreach($this->testresults['dsano'] as $category => $value){
-            if($pass != false){
-                if($value['correct'] < $this->passmarkPerCat){$pass = false;}
+        foreach($this->testresults['dsano'] as $value){
+            if($pass !== false && $value['correct'] < $this->passmarkPerCat){
+                $pass = false;
             }
         }
         unset($this->testresults['dsano']);
@@ -174,7 +174,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
         $this->testresults['percent']['incorrect'] = round(($this->testresults['incorrect'] / $this->testresults['numquestions']) * 100);
         $this->testresults['percent']['flagged'] = round(($this->testresults['flagged'] / $this->testresults['numquestions']) * 100);
         $this->testresults['percent']['incomplete'] = round(($this->testresults['incomplete'] / $this->testresults['numquestions']) * 100);
-        if($this->numCorrect() >= $this->passmark && $pass == true){
+        if($this->numCorrect() >= $this->passmark && $pass === true){
             $this->testresults['status'] = 'pass';
             $status = 1;
         }
