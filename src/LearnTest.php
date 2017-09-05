@@ -2,6 +2,10 @@
 
 namespace TheoryTest\ADI;
 
+use DBAL\Database;
+use Smarty;
+use UserAuth\User;
+
 class LearnTest extends \TheoryTest\Car\LearnTest{
     public $questionsTable = 'adi_questions';
     public $progressTable = 'adi_progress';
@@ -15,6 +19,13 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
     protected $sortBy = array('dsa' => 'dsaqposition', 'hc' => 'hcqno', 'l2d' => 'ldcqno');
     protected $key = array('dsa' => 1, 'hc' => array('>=', '0'), 'l2d' => array('>=', '0'));
     
+    /**
+     * Set up all of the components needed to create a Theory Test
+     * @param Database $db This should be an instance of Database
+     * @param Smarty $layout This needs to be an instance of Smarty Templating
+     * @param User $user This should be and instance if the User Class
+     * @param false|int $userID If you wish to emulate a user set this value to the users ID else set to false
+     */
     public function __construct(Database $db, Smarty $layout, User $user, $userID = false) {
         parent::__construct($db, $layout, $user, $userID);
         $this->setImagePath(ROOT.DS.'images'.DS.'adi'.DS);
