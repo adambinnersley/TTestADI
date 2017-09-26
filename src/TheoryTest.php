@@ -20,7 +20,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
     
     protected $scriptVar = 'adiquestions';
     
-    protected static $testType = 'adi';
+    protected $testType = 'adi';
     
     /**
      * Set up all of the components needed to create a Theory Test
