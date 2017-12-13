@@ -1,9 +1,6 @@
 {
     "name": "adamb/ttestadi",
     "type": "library",
-    "require": {
-        "adamb/ttest": "^2.1"
-    },
     "license": "None",
     "authors": [
         {
@@ -11,6 +8,12 @@
             "email": "abinnersley@gmail.com"
         }
     ],
+    "require": {
+        "adamb/ttest": "^2.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
     "autoload": {
         "psr-4": {
             "TheoryTest\\ADI\\": "src/"
