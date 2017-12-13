@@ -24,7 +24,7 @@ class RandomTest extends TheoryTest{
      * Picks some random questions for the ADI test
      * @return boolean If the questions have been selected and added to the database will return true else returns false
      */
-    protected function chooseQuestions(){        
+    protected function chooseQuestions($testNo = 100){        
         self::$db->delete($this->progressTable, array('user_id' => $this->getUserID(), 'test_id' => $this->testNo));
         $questions = self::$db->query("(SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '1' AND `includedintest` = '1' LIMIT 25)
 UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '2a' AND `includedintest` = '1' LIMIT 5)

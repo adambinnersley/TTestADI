@@ -36,7 +36,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
      */
     public function createNewTest($sectionNo = '1', $type = 'dsa'){
         $this->clearSettings();
-        $this->chooseQuestions($sectionNo, $type);
+        $this->chooseStudyQuestions($sectionNo, $type);
         $this->setTest($sectionNo, $type);
         if($type == 'dsa'){$title = 'Key Test Questions'; $table = 'dsa_sections';}
         elseif($type == 'hc'){$title = 'Publication'; $table = 'publications';}
@@ -51,7 +51,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
      * Gets the questions for the current section test
      * @param int $sectionNo This should be the section number for the test
      */
-    protected function chooseQuestions($sectionNo, $type = 'dsa') {
+    protected function chooseStudyQuestions($sectionNo, $type = 'dsa') {
         $this->testInfo['category'] = $this->categories[strtolower($type)];
         $this->testInfo['sort'] = $this->sortBy[strtolower($type)];
         $this->testInfo['key'] = $this->key[strtolower($type)];
