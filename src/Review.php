@@ -17,9 +17,9 @@ class Review extends \TheoryTest\Car\Review{
     
     public function getSectionTables(){
         return array(
-            array('table' => 'adi_modules', 'name' => 'ADI Modules', 'section' => 'l2d', 'sectionNo' => 'ldclessonno'),
-            array('table' => 'adi_publications', 'name' => 'ADI Publication', 'section' => 'hc', 'sectionNo' => 'hcsection'),
-            array('table' => 'adi_dsa_sections', 'name' => 'Key Test Questions', 'section' => 'dsa', 'sectionNo' => 'dsaband', 'keyquestion' => true)
+            array('table' => 'adi_modules', 'name' => 'ADI Modules', 'section' => 'hc', 'sectionNo' => 'ldclessonno'),
+            array('table' => 'adi_publications', 'name' => 'ADI Publication', 'section' => 'dsa', 'sectionNo' => 'hcsection'),
+            array('table' => 'adi_dsa_sections', 'name' => 'Key Test Questions', 'section' => 'l2d', 'sectionNo' => 'dsaband', 'keyquestion' => true)
         );
     }
     
