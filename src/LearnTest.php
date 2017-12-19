@@ -42,7 +42,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
         elseif($type == 'hc'){$title = 'Publication'; $table = 'publications';}
         else{$title = 'Module'; $table = 'modules';}
         $learnName = self::$db->select('adi_'.strtolower($table), array('section' => $sectionNo), array('free'));
-        if($learnName['free'] == 0){self::$user->checkUserAccess(NULL, $this->userType);}
+        if($learnName['free'] == 0 && method_exists(self::$user, 'checkUserAccess')){self::$user->checkUserAccess(NULL, $this->userType);}
         $this->setTestName('ADI '.$title.' '.$sectionNo);
         return $this->buildTest();
     }

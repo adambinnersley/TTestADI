@@ -44,7 +44,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
     public function createNewTest($theorytest = 1){
         $this->clearSettings();
         $this->setTest($theorytest);
-        self::$user->checkUserAccess($theorytest, 'adi');
+        if(method_exists(self::$user, 'checkUserAccess')){self::$user->checkUserAccess($theorytest, 'adi');}
         $this->setTestName();
         if($this->anyExisting() === false){
             $this->chooseQuestions($theorytest);
