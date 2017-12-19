@@ -9,7 +9,6 @@ class TheoryTestCertificate extends \TheoryTest\Car\TheoryTestCertificate{
         $this->theory->getQuestions();
         $this->theory->getTestResults();
         $this->theory->getUserAnswers();
-        $userInfo = self::$user->getUserInfo();
         if(!$this->theory->testresults['status']){redirect('/tests/theory.htm');}
         
         $this->PDFInfo();
@@ -23,7 +22,7 @@ class TheoryTestCertificate extends \TheoryTest\Car\TheoryTestCertificate{
             $this->pdf->SetFont('Arial','B', 18);
             $this->pdf->Cell(10, 14, '', 0); $this->pdf->Cell(28, 14, 'Candidate', 0);
             $this->pdf->Ln(12);
-            $this->certLine('Name:', $userInfo['first_name'].' '.$userInfo['last_name']);
+            $this->certLine('Name:', $this->certUsername);
             $this->pdf->Ln(10);
             $this->pdf->SetFont('Arial','B', 18);
             $this->pdf->Cell(10, 10, '', 0); $this->pdf->Cell(14, 10, 'Test', 0);
@@ -43,7 +42,7 @@ class TheoryTestCertificate extends \TheoryTest\Car\TheoryTestCertificate{
         $this->pdf->AddPage('P', 'A4');
         $this->pdf->SetFont('Arial','B', 8);
         $detailsheader = array('Name', 'Test Name', 'Unique Test ID', 'Taken on Date/Time');
-        $details = array(array($userInfo['first_name'].' '.$userInfo['last_name'], strip_tags($this->theory->getTestName()), $this->theory->testresults['id'], date('d/m/Y g:i A', strtotime($this->theory->testresults['complete']))));
+        $details = array(array($this->certUsername, strip_tags($this->theory->getTestName()), $this->theory->testresults['id'], date('d/m/Y g:i A', strtotime($this->theory->testresults['complete']))));
         $tablewidths = array(52,52,39,47);
         $this->pdf->basicTable($detailsheader, $details, $tablewidths);
         $this->pdf->Ln();
@@ -52,12 +51,12 @@ class TheoryTestCertificate extends \TheoryTest\Car\TheoryTestCertificate{
         $this->pdf->Ln(8);
         $this->pdf->SetFont('Arial','', 12);
         if($this->theory->testresults['status'] == 'pass'){
-            $this->pdf->Cell(184, 10, "Congratulations ".$userInfo['first_name']); $this->pdf->Ln(4);
+            $this->pdf->Cell(184, 10, "Congratulations ".$this->certUsername); $this->pdf->Ln(4);
             $this->pdf->Cell(184, 10, "You have passed this test with ".$this->theory->testresults['percent']['correct']."%."); $this->pdf->Ln(4);
             $this->pdf->Cell(184, 10, "You answered ".$this->theory->testresults['correct']." out of ".$this->theory->testresults['numquestions']." questions correctly");
         }
         else{
-            $this->pdf->Cell(184, 10, "Sorry ".$userInfo['first_name'].", but you have not passed this time."); $this->pdf->Ln(4);
+            $this->pdf->Cell(184, 10, "Sorry ".$this->certUsername.", but you have not passed this time."); $this->pdf->Ln(4);
             $this->pdf->Cell(184, 10, "You answered ".$this->theory->testresults['correct'].' out of '.$this->theory->testresults['numquestions']." questions correctly, the pass rate is ".$this->theory->passmark." out of ".$this->theory->testresults['numquestions']);
         }
         $this->pdf->Ln(12);
@@ -67,7 +66,7 @@ class TheoryTestCertificate extends \TheoryTest\Car\TheoryTestCertificate{
         $this->infoLine('Status:', strip_tags($this->theory->testStatus()));
         $this->infoLine('Questions:', $this->theory->testresults['numquestions']);
         $this->pdf->Ln(6);
-        if($this->testType != 'free'){$this->infoLine('Candidate:', $userInfo['first_name'].' '.$userInfo['last_name']);}
+        if($this->testType != 'free'){$this->infoLine('Candidate:', $this->certUsername);}
         $this->infoLine('Time Taken:', $this->theory->getTime());
         $this->pdf->Ln(16);
         $this->pdf->SetFont('Arial','B', 8);
