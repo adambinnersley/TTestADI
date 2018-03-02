@@ -2,6 +2,9 @@
 
 namespace TheoryTest\ADI;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TheoryTestCertificate extends \TheoryTest\Car\TheoryTestCertificate{
     protected $testType = 'ADI';
     
