@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `adi_dsa_sections`;
 CREATE TABLE IF NOT EXISTS `adi_dsa_sections` (
   `section` varchar(2) DEFAULT NULL,
   `group_id` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
@@ -7,14 +8,16 @@ CREATE TABLE IF NOT EXISTS `adi_dsa_sections` (
   KEY `group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `adi_modules`;
 CREATE TABLE IF NOT EXISTS `adi_modules` (
-  `section` int(11) NOT NULL AUTO_INCREMENT,
+  `section` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `lesson` int(11) DEFAULT '0',
-  `free` tinyint(4) NOT NULL DEFAULT '0',
+  `lesson` tinyint(3) UNSIGNED DEFAULT '0',
+  `free` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`section`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `adi_progress`;
 CREATE TABLE IF NOT EXISTS `adi_progress` (
   `user_id` int(11) UNSIGNED NOT NULL,
   `progress` longtext NOT NULL,
@@ -22,13 +25,15 @@ CREATE TABLE IF NOT EXISTS `adi_progress` (
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `adi_publications`;
 CREATE TABLE IF NOT EXISTS `adi_publications` (
-  `section` int(11) NOT NULL AUTO_INCREMENT,
+  `section` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `free` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`section`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `adi_questions`;
 CREATE TABLE IF NOT EXISTS `adi_questions` (
   `prim` int(11) UNSIGNED NOT NULL,
   `dsaband` varchar(2) DEFAULT NULL,
@@ -37,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `adi_questions` (
   `dsaqposition` smallint(6) UNSIGNED DEFAULT NULL,
   `ldclessonno` tinyint(3) UNSIGNED DEFAULT NULL,
   `ldcqno` smallint(6) UNSIGNED DEFAULT NULL,
-  `hcsection` smallint(6) UNSIGNED DEFAULT NULL,
+  `hcsection` tinyint(3) UNSIGNED DEFAULT NULL,
   `hcqno` smallint(6) UNSIGNED DEFAULT NULL,
   `hcrule1` int(10) UNSIGNED DEFAULT NULL,
   `hcrule2` int(10) UNSIGNED DEFAULT NULL,
@@ -90,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `adi_questions` (
   KEY `dsabandno` (`dsabandno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `adi_test_progress`;
 CREATE TABLE IF NOT EXISTS `adi_test_progress` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(11) UNSIGNED NOT NULL,
@@ -117,10 +123,12 @@ ALTER TABLE `adi_progress`
   ADD CONSTRAINT `adi_progress_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `adi_questions`
-  ADD CONSTRAINT `adi_questions_ibfk_1` FOREIGN KEY (`hcrule1`) REFERENCES `highway_code` (`hcno`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `adi_questions_ibfk_2` FOREIGN KEY (`hcrule2`) REFERENCES `highway_code` (`hcno`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `adi_questions_ibfk_3` FOREIGN KEY (`hcrule3`) REFERENCES `highway_code` (`hcno`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `adi_questions_ibfk_4` FOREIGN KEY (`dsaband`) REFERENCES `adi_dsa_sections` (`section`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `adi_questions_ibfk_1` FOREIGN KEY (`hcrule1`) REFERENCES `highway_code` (`hcno`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `adi_questions_ibfk_2` FOREIGN KEY (`hcrule2`) REFERENCES `highway_code` (`hcno`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `adi_questions_ibfk_3` FOREIGN KEY (`hcrule3`) REFERENCES `highway_code` (`hcno`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `adi_questions_ibfk_4` FOREIGN KEY (`dsaband`) REFERENCES `adi_dsa_sections` (`section`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `adi_questions_ibfk_5` FOREIGN KEY (`ldclessonno`) REFERENCES `adi_modules` (`section`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `adi_questions_ibfk_6` FOREIGN KEY (`hcsection`) REFERENCES `adi_publications` (`section`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 ALTER TABLE `adi_test_progress`
   ADD CONSTRAINT `adi_test_progress_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
