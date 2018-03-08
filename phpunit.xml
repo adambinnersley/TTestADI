@@ -26,5 +26,8 @@
         <var name="DB_USER" value="root" />
         <var name="DB_PASSWD" value="" />
         <var name="DB_DBNAME" value="theory_db" />
+        
+        <const name="ROOT" value="/var/www" />
+        <const name="DS" value="/" />
     </php>
 </phpunit>

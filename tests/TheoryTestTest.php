@@ -1,11 +1,12 @@
 <?php
 
+namespace TheoryTest\ADI\Tests;
+
 use PHPUnit\Framework\TestCase;
 use DBAL\Database;
 use Smarty;
-use UserAuth\User;
+use TheoryTest\Car\User;
 use TheoryTest\ADI\TheoryTest;
-
 
 class TheoryTestTest extends TestCase{
     protected static $db;
@@ -25,7 +26,7 @@ class TheoryTestTest extends TestCase{
             self::$db->query(file_get_contents(dirname(dirname(__FILE__)).'/vendor/adamb/hcldc/database/mysql_database.sql'));
             self::$db->query(file_get_contents(dirname(dirname(__FILE__)).'/vendor/adamb/hcldc/tests/sample_data/mysql_data.sql'));
             self::$db->query(file_get_contents(dirname(dirname(__FILE__)).'/database/database_mysql.sql'));
-            self::$db->query(file_get_contents(dirname(__FILE__).'/sample_data/data.sql'));
+            //self::$db->query(file_get_contents(dirname(__FILE__).'/sample_data/data.sql'));
         }
         self::$template = new Smarty();
         self::$template->setCacheDir(dirname(__FILE__).'/cache/')->setCompileDir(dirname(__FILE__).'/cache/');
