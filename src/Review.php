@@ -8,12 +8,17 @@ class Review extends \TheoryTest\Car\Review{
     
     public $noOfTests = 6;
     
-    protected $questionsTable = 'adi_questions';
-    protected $DSACatTable = 'adi_dsa_sections';
-    protected $progressTable = 'adi_progress';
-    protected $testProgressTable = 'adi_test_progress';
-    
     protected $testType = 'ADI';
+    
+    /**
+     * Sets the tables
+     */
+    protected function setTables() {
+        $this->questionsTable = $this->config->table_adi_questions;
+        $this->learningProgressTable = $this->config->table_adi_progress;
+        $this->progressTable = $this->config->table_adi_test_progress;
+        $this->dvsaCatTable = $this->config->table_adi_dvsa_sections;
+    }
     
     public function getSectionTables(){
         return array(
@@ -32,17 +37,17 @@ class Review extends \TheoryTest\Car\Review{
         foreach ($this->getSectionTables() as $i => $tables){
             if($tables['keyquestion'] === true){$this->where = array('includedintest' => 1);}
             if(is_array($tables)){
-                self::$layout->assign('table', $this->buildReviewTable($tables['table'], $tables['sectionNo'], $tables['name'], $tables['section']), true);
-                self::$layout->assign('table'.($i + 1).'name', $tables['name'], true);
-                self::$layout->assign($tables['section'].'section', self::$layout->fetch('table-learning.tpl'), true);
+                $this->layout->assign('table', $this->buildReviewTable($tables['table'], $tables['sectionNo'], $tables['name'], $tables['section']), true);
+                $this->layout->assign('table'.($i + 1).'name', $tables['name'], true);
+                $this->layout->assign($tables['section'].'section', $this->layout->fetch('table-learning.tpl'), true);
                 
             }
             elseif($tables === true){
-                self::$layout->assign('cases', $this->reviewCaseStudy(), true);
-                self::$layout->assign('reviewsection', self::$layout->fetch('table-case.tpl'), true);
+                $this->layout->assign('cases', $this->reviewCaseStudy(), true);
+                $this->layout->assign('reviewsection', $this->layout->fetch('table-case.tpl'), true);
             }
             if($tables['keyquestion'] === true){$this->where = array();}
         }
-        return self::$layout->fetch('study.tpl');
+        return $this->layout->fetch('study.tpl');
     }
 }

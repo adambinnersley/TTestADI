@@ -3,13 +3,10 @@
 namespace TheoryTest\ADI;
 
 use DBAL\Database;
+use Configuration\Config;
 use Smarty;
 
-class LearnTest extends \TheoryTest\Car\LearnTest{
-    public $questionsTable = 'adi_questions';
-    public $progressTable = 'adi_progress';
-    public $dsaCategoriesTable = 'adi_dsa_sections';
-    
+class LearnTest extends \TheoryTest\Car\LearnTest{    
     protected $audioLocation = '/audio/adi';
     
     protected $userType = 'adi';
@@ -25,9 +22,19 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
      * @param object $user This should be and instance if the User Class
      * @param false|int $userID If you wish to emulate a user set this value to the users ID else set to false
      */
-    public function __construct(Database $db, Smarty $layout, $user, $userID = false) {
-        parent::__construct($db, $layout, $user, $userID);
+    public function __construct(Database $db, Config $config, Smarty $layout, $user, $userID = false) {
+        parent::__construct($db, $config, $layout, $user, $userID);
         $this->setImagePath(ROOT.DS.'images'.DS.'adi'.DS);
+    }
+    
+    /**
+     * Sets the tables
+     */
+    protected function setTables() {
+        $this->questionsTable = $this->config->table_adi_questions;
+        $this->learningProgressTable = $this->config->table_adi_progress;
+        $this->progressTable = $this->config->table_adi_test_progress;
+        $this->dvsaCatTable = $this->config->table_adi_dvsa_sections;
     }
     
     /**

@@ -3,6 +3,7 @@
 namespace TheoryTest\ADI;
 
 use DBAL\Database;
+use Configuration\Config;
 use Smarty;
 
 class TheoryTest extends \TheoryTest\Car\TheoryTest{
@@ -14,10 +15,6 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
     
     protected $audioLocation = '/audio/adi';
     
-    public $questionsTable = 'adi_questions';
-    public $progressTable = 'adi_test_progress';
-    public $dsaCategoriesTable = 'adi_dsa_sections';
-    
     protected $scriptVar = 'adiquestions';
     
     protected $testType = 'adi';
@@ -25,15 +22,26 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
     /**
      * Set up all of the components needed to create a Theory Test
      * @param Database $db This should be an instance of Database
+     * @param Config $config This should be an instance of Config
      * @param Smarty $layout This needs to be an instance of Smarty Templating
      * @param object $user This should be and instance if the User Class
      * @param false|int $userID If you wish to emulate a user set this value to the users ID else set to false
      * @param string|false $templateDir If you want to change the template location set this location here else set to false
      */
-    public function __construct(Database $db, Smarty $layout, $user, $userID = false, $templateDir = false) {
-        parent::__construct($db, $layout, $user, $userID, $templateDir);
+    public function __construct(Database $db, Config $config, Smarty $layout, $user, $userID = false, $templateDir = false) {
+        parent::__construct($db, $config, $layout, $user, $userID, $templateDir);
         self::$layout->addTemplateDir($templateDir === false ? str_replace(basename(__DIR__), '', dirname(__FILE__)).'templates' : $templateDir);
         $this->setImagePath(ROOT.DS.'images'.DS.'adi'.DS);
+    }
+    
+    /**
+     * Sets the tables
+     */
+    protected function setTables() {
+        $this->questionsTable = $this->config->table_adi_questions;
+        $this->learningProgressTable = $this->config->table_adi_progress;
+        $this->progressTable = $this->config->table_adi_test_progress;
+        $this->dvsaCatTable = $this->config->table_adi_dvsa_sections;
     }
 
     /**

@@ -2,6 +2,10 @@
 namespace TheoryTest\ADI;
 
 class DeleteData extends \TheoryTest\Car\DeleteData{
-    public $learningProgressTable = 'adi_progress';
-    public $progressTable = 'adi_test_progress';
+    
+    protected function setTables(){
+        $this->learningProgressTable = $this->config->table_adi_progress;
+        $this->progressTable = $this->config->table_adi_test_progress;
+    }
+    
 }

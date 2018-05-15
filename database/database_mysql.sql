@@ -80,12 +80,12 @@ CREATE TABLE IF NOT EXISTS `adi_questions` (
   `mt6` tinyint(3) UNSIGNED DEFAULT NULL,
   `format` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`prim`),
-  KEY `mt1` (`mt1`),
-  KEY `mt2` (`mt2`),
-  KEY `mt3` (`mt3`),
-  KEY `mt4` (`mt4`),
-  KEY `mt5` (`mt5`),
-  KEY `mt6` (`mt6`),
+  UNIQUE KEY `mt1` (`mt1`) USING BTREE,
+  UNIQUE KEY `mt2` (`mt2`) USING BTREE,
+  UNIQUE KEY `mt3` (`mt3`) USING BTREE,
+  UNIQUE KEY `mt4` (`mt4`) USING BTREE,
+  UNIQUE KEY `mt5` (`mt5`) USING BTREE,
+  UNIQUE KEY `mt6` (`mt6`) USING BTREE,
   KEY `hcrule1` (`hcrule1`),
   KEY `hcrule2` (`hcrule2`),
   KEY `hcrule3` (`hcrule3`),
@@ -114,6 +114,11 @@ CREATE TABLE IF NOT EXISTS `adi_test_progress` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `users`
+ADD `first_name` VARCHAR(50) NOT NULL AFTER `id`,
+ADD `last_name` VARCHAR(50) NOT NULL AFTER `first_name`,
+ADD `settings` TEXT NULL DEFAULT NULL AFTER `isactive`;
 
 --
 -- Constraints
