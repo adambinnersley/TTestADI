@@ -30,7 +30,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      */
     public function __construct(Database $db, Config $config, Smarty $layout, $user, $userID = false, $templateDir = false) {
         parent::__construct($db, $config, $layout, $user, $userID, $templateDir);
-        self::$layout->addTemplateDir($templateDir === false ? str_replace(basename(__DIR__), '', dirname(__FILE__)).'templates' : $templateDir);
+        $this->layout->addTemplateDir($templateDir === false ? str_replace(basename(__DIR__), '', dirname(__FILE__)).'templates' : $templateDir);
         $this->setImagePath(ROOT.DS.'images'.DS.'adi'.DS);
     }
     
@@ -52,7 +52,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
     public function createNewTest($theorytest = 1){
         $this->clearSettings();
         $this->setTest($theorytest);
-        if(method_exists(self::$user, 'checkUserAccess')){self::$user->checkUserAccess($theorytest, 'adi');}
+        if(method_exists($this->user, 'checkUserAccess')){$this->user->checkUserAccess($theorytest, 'adi');}
         $this->setTestName();
         if($this->anyExisting() === false){
             $this->chooseQuestions($theorytest);
@@ -66,13 +66,13 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return boolean
      */
     protected function chooseQuestions($testNo){
-        self::$db->delete($this->progressTable, array('user_id' => $this->getUserID(), 'test_id' => $testNo));
-        $questions = self::$db->selectAll($this->questionsTable, array('mt'.$testNo => array('>=', 1)), '*', array('mt'.$testNo => 'ASC'));
+        $this->db->delete($this->progressTable, array('user_id' => $this->getUserID(), 'test_id' => $testNo));
+        $questions = $this->db->selectAll($this->questionsTable, array('mt'.$testNo => array('>=', 1)), '*', array('mt'.$testNo => 'ASC'));
         unset($_SESSION['test'.$this->getTest()]);
         foreach($questions as $q => $question){
             $this->questions[($q + 1)] = $question['prim'];
         }
-        return self::$db->insert($this->progressTable, array('user_id' => $this->getUserID(), 'questions' => serialize($this->questions), 'answers' => serialize(array()), 'test_id' => $testNo, 'started' => date('Y-m-d H:i:s'), 'status' => 0, 'type' => $this->getTestType()));
+        return $this->db->insert($this->progressTable, array('user_id' => $this->getUserID(), 'questions' => serialize($this->questions), 'answers' => serialize(array()), 'test_id' => $testNo, 'started' => date('Y-m-d H:i:s'), 'status' => 0, 'type' => $this->getTestType()));
     }
     
     /**
@@ -94,7 +94,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return array|boolean Returns question data as array if data exists else returns false
      */
     protected function getQuestionData($prim){
-        return self::$db->select($this->questionsTable, array('prim' => $prim), array('prim', 'question', 'mark', 'option1', 'option2', 'option3', 'option4', 'answerletters', 'format', 'dsaimageid', 'dsaexplanation'));
+        return $this->db->select($this->questionsTable, array('prim' => $prim), array('prim', 'question', 'mark', 'option1', 'option2', 'option3', 'option4', 'answerletters', 'format', 'dsaimageid', 'dsaexplanation'));
     }
 
     
@@ -104,7 +104,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return int The DSA Band for a given prim number
      */
     protected function getDSABand($prim){
-        $dsacat = self::$db->select($this->questionsTable, array('prim' => $prim), array('dsaband'));
+        $dsacat = $this->db->select($this->questionsTable, array('prim' => $prim), array('dsaband'));
         return $dsacat['dsaband'];
     }
     
@@ -114,7 +114,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return int The DSA Band for a given prim number
      */
     protected function getDSABandNo($prim){
-        $dsacat = self::$db->select($this->questionsTable, array('prim' => $prim), array('dsabandno'));
+        $dsacat = $this->db->select($this->questionsTable, array('prim' => $prim), array('dsabandno'));
         return $dsacat['dsabandno'];
     }
     
@@ -124,8 +124,8 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return array Returns that particular prim info
      */
     public function questionInfo($prim){        
-        $questioninfo = self::$db->select($this->questionsTable, array('prim' => $prim), array('prim', 'dsaband', 'dsaqposition'));
-        $catinfo = self::$db->select($this->dsaCategoriesTable, array('section' => $questioninfo['dsaband']));
+        $questioninfo = $this->db->select($this->questionsTable, array('prim' => $prim), array('prim', 'dsaband', 'dsaqposition'));
+        $catinfo = $this->db->select($this->dsaCategoriesTable, array('section' => $questioninfo['dsaband']));
         
         $info = array();
         $info['prim'] = $questioninfo['prim'];
@@ -144,7 +144,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
             if($type == 'taken'){
                 list($hours, $mins, $secs) = explode(':', $time);
                 $time = gmdate('H:i:s', ($this->seconds - (($hours * 60 * 60) + ($mins * 60) + $secs)));
-                self::$db->update($this->progressTable, array('time_'.$type => $time), array('user_id' => $this->getUserID(), 'test_id' => $this->getTest()));
+                $this->db->update($this->progressTable, array('time_'.$type => $time), array('user_id' => $this->getUserID(), 'test_id' => $this->getTest()));
             }
             else{
                 $_SESSION['time_'.$type]['test'.$this->getTest()] = $time;
@@ -203,7 +203,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
             $this->testresults['status'] = 'fail';
             $status = 2;
         }
-        self::$db->update($this->progressTable, array('status' => $status, 'results' => serialize($this->testresults), 'complete' => date('Y-m-d H:i:s'), 'totalscore' => $this->numCorrect()), array('user_id' => $this->getUserID(), 'test_id' => $this->getTest(), 'status' => 0));
+        $this->db->update($this->progressTable, array('status' => $status, 'results' => serialize($this->testresults), 'complete' => date('Y-m-d H:i:s'), 'totalscore' => $this->numCorrect()), array('user_id' => $this->getUserID(), 'test_id' => $this->getTest(), 'status' => 0));
     }
     
     /**
@@ -211,7 +211,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return string Returns an overview of the results to be put into a table
      */
     protected function createOverviewResults(){
-        $dsacats = self::$db->selectAll($this->dsaCategoriesTable);
+        $dsacats = $this->db->selectAll($this->dsaCategoriesTable);
         $catresults = array();
         foreach($dsacats as $i => $dsacat){
             $catresults[$i]['section'] = $dsacat['section'];
