@@ -13,7 +13,7 @@ class Review extends \TheoryTest\Car\Review{
     /**
      * Sets the tables
      */
-    protected function setTables() {
+    public function setTables() {
         $this->questionsTable = $this->config->table_adi_questions;
         $this->learningProgressTable = $this->config->table_adi_progress;
         $this->progressTable = $this->config->table_adi_test_progress;
