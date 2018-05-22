@@ -4,12 +4,14 @@ namespace TheoryTest\ADI\Tests;
 
 use PHPUnit\Framework\TestCase;
 use DBAL\Database;
+use Configuration\Config;
 use Smarty;
 use TheoryTest\Car\User;
 use TheoryTest\ADI\TheoryTest;
 
 class TheoryTestTest extends TestCase{
     protected static $db;
+    protected static $config;
     protected static $user;
     protected static $template;
     protected $theoryTest;
@@ -28,13 +30,14 @@ class TheoryTestTest extends TestCase{
             self::$db->query(file_get_contents(dirname(dirname(__FILE__)).'/database/database_mysql.sql'));
             //self::$db->query(file_get_contents(dirname(__FILE__).'/sample_data/data.sql'));
         }
+        self::$config = new Config(self::$db);
         self::$template = new Smarty();
         self::$template->setCacheDir(dirname(__FILE__).'/cache/')->setCompileDir(dirname(__FILE__).'/cache/');
         self::$user = new User(self::$db);
     }
     
     protected function setUp() {
-        $this->theoryTest = new TheoryTest(self::$db, self::$template, self::$user);
+        $this->theoryTest = new TheoryTest(self::$db, self::$config, self::$template, self::$user);
     }
     
     public function testExample() {

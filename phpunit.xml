@@ -6,6 +6,7 @@
          beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
+         convertNoticesToExceptions="false"
          verbose="true"
          stderr="true">
     <testsuite>
@@ -29,5 +30,8 @@
         
         <const name="ROOT" value="/var/www" />
         <const name="DS" value="/" />
+        
+        <const name="SESSION_NAME" value="ttest" />
+        <const name="DOMAIN" value="mywebsite.co.uk" />
     </php>
 </phpunit>
