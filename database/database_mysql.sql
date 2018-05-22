@@ -1,4 +1,16 @@
-DROP TABLE IF EXISTS `adi_dsa_sections`;
+CREATE TABLE IF NOT EXISTS `config` (
+  `setting` varchar(100) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY (`setting`),
+  UNIQUE KEY `setting` (`setting`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `config` (`setting`, `value`) VALUES
+('table_adi_progress', 'adi_progress'),
+('table_adi_test_progress', 'adi_test_progress'),
+('table_adi_questions', 'adi_questions'),
+('table_adi_dvsa_sections', 'adi_dsa_sections');
+
 CREATE TABLE IF NOT EXISTS `adi_dsa_sections` (
   `section` varchar(2) DEFAULT NULL,
   `group_id` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
@@ -8,7 +20,6 @@ CREATE TABLE IF NOT EXISTS `adi_dsa_sections` (
   KEY `group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `adi_modules`;
 CREATE TABLE IF NOT EXISTS `adi_modules` (
   `section` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -17,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `adi_modules` (
   PRIMARY KEY (`section`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `adi_progress`;
 CREATE TABLE IF NOT EXISTS `adi_progress` (
   `user_id` int(11) UNSIGNED NOT NULL,
   `progress` longtext NOT NULL,
@@ -25,7 +35,6 @@ CREATE TABLE IF NOT EXISTS `adi_progress` (
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `adi_publications`;
 CREATE TABLE IF NOT EXISTS `adi_publications` (
   `section` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
@@ -33,7 +42,6 @@ CREATE TABLE IF NOT EXISTS `adi_publications` (
   PRIMARY KEY (`section`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `adi_questions`;
 CREATE TABLE IF NOT EXISTS `adi_questions` (
   `prim` int(11) UNSIGNED NOT NULL,
   `dsaband` varchar(2) DEFAULT NULL,
@@ -95,7 +103,6 @@ CREATE TABLE IF NOT EXISTS `adi_questions` (
   KEY `dsabandno` (`dsabandno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `adi_test_progress`;
 CREATE TABLE IF NOT EXISTS `adi_test_progress` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(11) UNSIGNED NOT NULL,
