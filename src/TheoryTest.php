@@ -66,13 +66,13 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return boolean
      */
     protected function chooseQuestions($testNo){
-        $this->db->delete($this->progressTable, array('user_id' => $this->getUserID(), 'test_id' => $testNo));
-        $questions = $this->db->selectAll($this->questionsTable, array('mt'.$testNo => array('>=', 1)), '*', array('mt'.$testNo => 'ASC'));
+        $this->db->delete($this->progressTable, ['user_id' => $this->getUserID(), 'test_id' => $testNo]);
+        $questions = $this->db->selectAll($this->questionsTable, ['mt'.$testNo => ['>=', 1]], '*', ['mt'.$testNo => 'ASC']);
         unset($_SESSION['test'.$this->getTest()]);
         foreach($questions as $q => $question){
             $this->questions[($q + 1)] = $question['prim'];
         }
-        return $this->db->insert($this->progressTable, array('user_id' => $this->getUserID(), 'questions' => serialize($this->questions), 'answers' => serialize(array()), 'test_id' => $testNo, 'started' => date('Y-m-d H:i:s'), 'status' => 0, 'type' => $this->getTestType()));
+        return $this->db->insert($this->progressTable, ['user_id' => $this->getUserID(), 'questions' => serialize($this->questions), 'answers' => serialize([]), 'test_id' => $testNo, 'started' => date('Y-m-d H:i:s'), 'status' => 0, 'type' => $this->getTestType()]);
     }
     
     /**
@@ -94,7 +94,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return array|boolean Returns question data as array if data exists else returns false
      */
     protected function getQuestionData($prim){
-        return $this->db->select($this->questionsTable, array('prim' => $prim), array('prim', 'question', 'mark', 'option1', 'option2', 'option3', 'option4', 'answerletters', 'format', 'dsaimageid', 'dsaexplanation'));
+        return $this->db->select($this->questionsTable, ['prim' => $prim], ['prim', 'question', 'mark', 'option1', 'option2', 'option3', 'option4', 'answerletters', 'format', 'dsaimageid', 'dsaexplanation']);
     }
 
     
@@ -104,7 +104,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return int The DSA Band for a given prim number
      */
     protected function getDSABand($prim){
-        $dsacat = $this->db->select($this->questionsTable, array('prim' => $prim), array('dsaband'));
+        $dsacat = $this->db->select($this->questionsTable, ['prim' => $prim], ['dsaband']);
         return $dsacat['dsaband'];
     }
     
@@ -114,7 +114,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return int The DSA Band for a given prim number
      */
     protected function getDSABandNo($prim){
-        $dsacat = $this->db->select($this->questionsTable, array('prim' => $prim), array('dsabandno'));
+        $dsacat = $this->db->select($this->questionsTable, ['prim' => $prim], ['dsabandno']);
         return $dsacat['dsabandno'];
     }
     
@@ -123,11 +123,11 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @param int $prim this is the question unique number
      * @return array Returns that particular prim info
      */
-    public function questionInfo($prim){        
-        $questioninfo = $this->db->select($this->questionsTable, array('prim' => $prim), array('prim', 'dsaband', 'dsaqposition'));
-        $catinfo = $this->db->select($this->dsaCategoriesTable, array('section' => $questioninfo['dsaband']));
+    public function questionInfo($prim){
+        $questioninfo = $this->db->select($this->questionsTable, ['prim' => $prim], ['prim', 'dsaband', 'dsaqposition']);
+        $catinfo = $this->db->select($this->dsaCategoriesTable, ['section' => $questioninfo['dsaband']]);
         
-        $info = array();
+        $info = [];
         $info['prim'] = $questioninfo['prim'];
         $info['cat'] = $catinfo['name'];
         $info['topic'] = $questioninfo['dsaqposition'];
