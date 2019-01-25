@@ -22,8 +22,8 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
      * @param object $user This should be and instance if the User Class
      * @param false|int $userID If you wish to emulate a user set this value to the users ID else set to false
      */
-    public function __construct(Database $db, Config $config, Smarty $layout, $user, $userID = false) {
-        parent::__construct($db, $config, $layout, $user, $userID);
+    public function __construct(Database $db, Config $config, Smarty $layout, $user, $userID = false, $templateDir = false, $theme = 'bootstrap') {
+        parent::__construct($db, $config, $layout, $user, $userID, $templateDir, $theme);
         $this->setImagePath(ROOT.DS.'images'.DS.'adi'.DS);
     }
     
@@ -106,7 +106,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
             $prim = $this->db->fetchColumn($this->questionsTable, [$this->testInfo['sort'] => ['<', $this->currentQuestion()], $this->testInfo['category'] => $this->testInfo['section'], 'includedintest' => $this->testInfo['key']], ['prim'], 0, [$this->testInfo['sort'] => 'DESC']);
         }
         else{$prim = $this->getLastQuestion();}
-        return '<div class="prevquestion btn btn-theory" id="'.$prim.'"><span class="fa fa-angle-left fa-fw"></span><span class="hidden-xs"> Previous</span></div>';
+        return ['id' => $prim, 'test' => 'Previous', 'icon' => 'angle-left'];
     }
     
     /**
@@ -119,7 +119,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
             $prim = $this->db->fetchColumn($this->questionsTable, [$this->testInfo['sort'] => ['>', $this->currentQuestion()], $this->testInfo['category'] => $this->testInfo['section'], 'includedintest' => $this->testInfo['key']], ['prim'], 0, [$this->testInfo['sort'] => 'ASC']);
         }
         else{$prim = $this->getFirstQuestion();}
-        return '<div class="nextquestion btn btn-theory" id="'.$prim.'"><span class="fa fa-angle-right fa-fw"></span><span class="hidden-xs"> Next</span></div>';
+        return ['id' => $prim, 'test' => 'Next', 'icon' => 'angle-right'];
     }
     
     /**
@@ -161,24 +161,5 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
     protected function getLastQuestion(){
         $question = $this->db->select($this->questionsTable, [$this->testInfo['category'] => $this->testInfo['section'], 'includedintest' => $this->testInfo['key']], ['prim'], [$this->testInfo['sort'] => 'DESC']);
         return $question['prim'];
-    }
-    
-    /**
-     * Returns any related information about the current question
-     * @param string $explanation This should be the DSA explanation for the database as it has already been retrieved
-     * @param int $prim This should be the questions unique prim number
-     * @return string Should return any related question information in a tabbed format
-     */
-    public function dsaExplanation($explanation, $prim){
-        return '<div class="col-xs-12 showhint'.($this->checkSettings()['hint'] == 'on' ? ' visible' : '').'">
-<ul class="nav nav-tabs">
-<li class="active"><a href="#tab-1" aria-controls="profile" role="tab" data-toggle="tab">Highway Code +</a></li>
-<li><a href="#tab-2" aria-controls="profile" role="tab" data-toggle="tab">DVSA Advice</a></li>
-</ul>
-<div class="tab-content">
-<div role="tabpanel" class="tab-pane active" id="tab-1">'.$this->highwayCodePlus($prim).'</div>
-<div role="tabpanel" class="tab-pane" id="tab-2">'.$this->addAudio($prim, 'DSA').$explanation.'</div>
-</div>
-</div>';
     }
 }
