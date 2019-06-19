@@ -16,7 +16,7 @@ class TheoryTestTest extends TestCase{
     protected static $template;
     protected $theoryTest;
     
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         self::$db = new Database($GLOBALS['DB_HOST'], $GLOBALS['DB_USER'], $GLOBALS['DB_PASSWD'], $GLOBALS['DB_DBNAME']);
         if(!self::$db->isConnected()){
              $this->markTestSkipped(
@@ -36,7 +36,7 @@ class TheoryTestTest extends TestCase{
         self::$user = new User(self::$db);
     }
     
-    protected function setUp() {
+    protected function setUp(): void {
         $this->theoryTest = new TheoryTest(self::$db, self::$config, self::$template, self::$user);
     }
     
