@@ -13,8 +13,6 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
     public $passmark = 85;
     public $passmarkPerCat = 20;
     
-    protected $audioLocation = '/audio/adi';
-    
     protected $scriptVar = 'adiquestions';
     
     protected $testType = 'adi';

@@ -44,9 +44,9 @@ class TheoryTestCertificate extends \TheoryTest\Car\TheoryTestCertificate{
         
         $this->pdf->AddPage('P', 'A4');
         $this->pdf->SetFont('Arial','B', 8);
-        $detailsheader = array('Name', 'Test Name', 'Unique Test ID', 'Taken on Date/Time');
-        $details = array(array($this->certUsername, strip_tags($this->theory->getTestName()), $this->theory->testresults['id'], date('d/m/Y g:i A', strtotime($this->theory->testresults['complete']))));
-        $tablewidths = array(52,52,39,47);
+        $detailsheader = ['Name', 'Test Name', 'Unique Test ID', 'Taken on Date/Time'];
+        $details = [[$this->certUsername, strip_tags($this->theory->getTestName()), $this->theory->testresults['id'], date('d/m/Y g:i A', strtotime($this->theory->testresults['complete']))]];
+        $tablewidths = [52,52,39,47];
         $this->pdf->basicTable($detailsheader, $details, $tablewidths);
         $this->pdf->Ln();
         $this->pdf->SetFont('Arial','B', 16);

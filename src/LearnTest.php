@@ -7,8 +7,6 @@ use Configuration\Config;
 use Smarty;
 
 class LearnTest extends \TheoryTest\Car\LearnTest{    
-    protected $audioLocation = '/audio/adi';
-    
     protected $userType = 'adi';
     
     protected $categories = ['dsa' => 'dsaband', 'hc' => 'hcsection', 'l2d' => 'ldclessonno'];

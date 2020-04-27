@@ -4,7 +4,7 @@ namespace TheoryTest\ADI;
 
 class Review extends \TheoryTest\Car\Review{
     
-    public $where = array();
+    public $where = [];
     
     public $noOfTests = 6;
     
