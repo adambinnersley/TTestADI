@@ -13,7 +13,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
     public $passmark = 85;
     public $passmarkPerCat = 20;
     
-    protected $scriptVar = 'adiquestions';
+    protected $scriptVar = 'adi';
     
     protected $testType = 'adi';
     
