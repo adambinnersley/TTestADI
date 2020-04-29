@@ -27,8 +27,8 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @param string|false $templateDir If you want to change the template location set this location here else set to false
      */
     public function __construct(Database $db, Config $config, Smarty $layout, $user, $userID = false, $templateDir = false, $theme = 'bootstrap') {
-        parent::__construct($db, $config, $layout, $user, $userID, $templateDir);
-        $this->layout->addTemplateDir(($templateDir === false ? str_replace(basename(__DIR__), '', dirname(__FILE__)).'templates'.DS.$theme : $templateDir), 'theory');
+        parent::__construct($db, $config, $layout, $user, $userID, $templateDir, $theme);
+        $this->layout->addTemplateDir(($templateDir === false ? str_replace(basename(__DIR__), '', dirname(__FILE__)).'templates'.DS.$theme : $templateDir), 'aditheory');
         $this->setImagePath(DS.'images'.DS.'adi'.DS);
     }
     
