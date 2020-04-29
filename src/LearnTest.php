@@ -23,7 +23,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
     public function __construct(Database $db, Config $config, Smarty $layout, $user, $userID = false, $templateDir = false, $theme = 'bootstrap') {
         parent::__construct($db, $config, $layout, $user, $userID, $templateDir, $theme);
         $this->layout->addTemplateDir(($templateDir === false ? str_replace(basename(__DIR__), '', dirname(__FILE__)).'templates'.DS.$theme : $templateDir), 'aditheory');
-        $this->setImagePath(ROOT.DS.'images'.DS.'adi'.DS);
+        $this->setImagePath(DS.'images'.DS.'adi'.DS);
     }
     
     /**
