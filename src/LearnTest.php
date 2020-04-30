@@ -47,8 +47,8 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
         if($type == 'dsa'){$title = 'Key Test Questions'; $table = 'dsa_sections';}
         elseif($type == 'hc'){$title = 'Publication'; $table = 'publications';}
         else{$title = 'Module'; $table = 'modules';}
-        $learnName = $this->db->select('adi_'.strtolower($table), ['section' => $sectionNo], ['free']);
-        if($learnName['free'] == 0 && method_exists($this->user, 'checkUserAccess')){$this->user->checkUserAccess(NULL, $this->userType);}
+        $sectionInfo = $this->getSectionInfo('adi_'.strtolower($table), $sectionNo);
+        if((!isset($sectionInfo['free']) || $sectionInfo['free'] == 0) && method_exists($this->user, 'checkUserAccess')){$this->user->checkUserAccess(NULL, $this->userType);}
         $this->setTestName('ADI '.$title.' '.$sectionNo);
         return $this->buildTest();
     }
