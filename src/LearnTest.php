@@ -11,9 +11,9 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
     
     protected $scriptVar = 'adilearn';
     
-    protected $categories = ['dsa' => 'dsaband', 'hc' => 'hcsection', 'l2d' => 'ldclessonno'];
-    protected $sortBy = ['dsa' => 'dsaqposition', 'hc' => 'hcqno', 'l2d' => 'ldcqno'];
-    protected $key = ['dsa' => 1, 'hc' => ['>=', '0'], 'l2d' => ['>=', '0']];
+    protected $categories = ['dvsa' => 'dsaband', 'hc' => 'hcsection', 'l2d' => 'ldclessonno'];
+    protected $sortBy = ['dvsa' => 'dsaqposition', 'hc' => 'hcqno', 'l2d' => 'ldcqno'];
+    protected $key = ['dvsa' => 1, 'hc' => ['>=', '0'], 'l2d' => ['>=', '0']];
     
     /**
      * Set up all of the components needed to create a Theory Test
@@ -42,11 +42,11 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
      * Creates a new test for the ADI Theory Test
      * @param int $sectionNo This should be the section number for the test
      */
-    public function createNewTest($sectionNo = '1', $type = 'dsa'){
+    public function createNewTest($sectionNo = '1', $type = 'dvsa'){
         $this->clearSettings();
         $this->chooseStudyQuestions($sectionNo, $type);
         $this->setTest($sectionNo, $type);
-        if($type == 'dsa'){$title = 'Key Test Questions'; $table = 'dsa_sections';}
+        if($type == 'dvsa'){$title = 'Key Test Questions'; $table = 'dsa_sections';}
         elseif($type == 'hc'){$title = 'Publication'; $table = 'publications';}
         else{$title = 'Module'; $table = 'modules';}
         $sectionInfo = $this->getSectionInfo('adi_'.strtolower($table), $sectionNo);
@@ -59,7 +59,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
      * Gets the questions for the current section test
      * @param int $sectionNo This should be the section number for the test
      */
-    protected function chooseStudyQuestions($sectionNo, $type = 'dsa') {
+    protected function chooseStudyQuestions($sectionNo, $type = 'dvsa') {
         $this->testInfo['category'] = $this->categories[strtolower($type)];
         $this->testInfo['sort'] = $this->sortBy[strtolower($type)];
         $this->testInfo['key'] = $this->key[strtolower($type)];

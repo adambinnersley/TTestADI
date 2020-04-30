@@ -97,23 +97,23 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
 
     
     /**
-     * Returns the DSA Band for a given prim number
+     * Returns the DVSA Band for a given prim number
      * @param int $prim The prim number for the question you are looking for
-     * @return int The DSA Band for a given prim number
+     * @return int The DVSA Band for a given prim number
      */
-    protected function getDSABand($prim){
-        $dsacat = $this->db->select($this->questionsTable, ['prim' => $prim], ['dsaband']);
-        return $dsacat['dsaband'];
+    protected function getDVSABand($prim){
+        $dvsacat = $this->db->select($this->questionsTable, ['prim' => $prim], ['dsaband']);
+        return $dvsacat['dsaband'];
     }
     
     /**
-     * Returns the DSA Band number for a given prim number
+     * Returns the DVSA Band number for a given prim number
      * @param int $prim The prim number for the question you are looking for
-     * @return int The DSA Band for a given prim number
+     * @return int The DVSA Band for a given prim number
      */
-    protected function getDSABandNo($prim){
-        $dsacat = $this->db->select($this->questionsTable, ['prim' => $prim], ['dsabandno']);
-        return $dsacat['dsabandno'];
+    protected function getDVSABandNo($prim){
+        $dvsacat = $this->db->select($this->questionsTable, ['prim' => $prim], ['dsabandno']);
+        return $dvsacat['dsabandno'];
     }
     
     /**
@@ -123,7 +123,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      */
     public function questionInfo($prim){
         $questioninfo = $this->db->select($this->questionsTable, ['prim' => $prim], ['prim', 'dsaband', 'dsaqposition']);
-        $catinfo = $this->db->select($this->dsaCategoriesTable, ['section' => $questioninfo['dsaband']]);
+        $catinfo = $this->db->select($this->dvsaCatTable, ['section' => $questioninfo['dsaband']]);
         
         $info = [];
         $info['prim'] = $questioninfo['prim'];
@@ -170,19 +170,19 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
             if($_SESSION['test'.$this->getTest()][$this->questionNo($prim)]['status'] == 4){$type = 'correct';}
             else{$type = 'incorrect';}
              
-            $dsa = $this->getDSABand($prim);
-            $dsano = $this->getDSABandNo($prim);
-            $this->testresults['dsa'][$dsa][$type] = (int)$this->testresults['dsa'][$dsa][$type] + 1;
-            $this->testresults['dsano'][$dsano][$type] = (int)$this->testresults['dsano'][$dsano][$type] + 1;
+            $dvsa = $this->getDVSABand($prim);
+            $dvsano = $this->getDVSABandNo($prim);
+            $this->testresults['dvsa'][$dvsa][$type] = (int)$this->testresults['dvsa'][$dvsa][$type] + 1;
+            $this->testresults['dvsano'][$dvsano][$type] = (int)$this->testresults['dvsano'][$dvsano][$type] + 1;
         }
         
         $pass = true;
-        foreach($this->testresults['dsano'] as $value){
+        foreach($this->testresults['dvsano'] as $value){
             if($pass !== false && $value['correct'] < $this->passmarkPerCat){
                 $pass = false;
             }
         }
-        unset($this->testresults['dsano']);
+        unset($this->testresults['dvsano']);
         
         $this->testresults['correct'] = $this->numCorrect();
         $this->testresults['incorrect'] = ($this->numQuestions() - $this->numCorrect());
@@ -209,14 +209,14 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @return string Returns an overview of the results to be put into a table
      */
     protected function createOverviewResults(){
-        $dsacats = $this->db->selectAll($this->dsaCategoriesTable);
-        $catresults = array();
-        foreach($dsacats as $i => $dsacat){
-            $catresults[$i]['section'] = $dsacat['section'];
-            $catresults[$i]['name'] = str_replace($dsacat['section'].'.', '', $dsacat['name']);
-            $catresults[$i]['correct'] = (int)$this->testresults['dsa'][$dsacat['section']]['correct'];
-            $catresults[$i]['incorrect'] = (int)$this->testresults['dsa'][$dsacat['section']]['incorrect'];
-            $catresults[$i]['total'] = ((int)$this->testresults['dsa'][$dsacat['section']]['correct'] + (int)$this->testresults['dsa'][$dsacat['section']]['incorrect'] + (int)$this->testresults['dsa'][$dsacat['section']]['unattempted']);
+        $dvsaCats = $this->db->selectAll($this->dvsaCatTable);
+        $catresults = [];
+        foreach($dvsaCats as $i => $dvsacat){
+            $catresults[$i]['section'] = $dvsacat['section'];
+            $catresults[$i]['name'] = str_replace($dvsacat['section'].'.', '', $dvsacat['name']);
+            $catresults[$i]['correct'] = (int)$this->testresults['dvsa'][$dvsacat['section']]['correct'];
+            $catresults[$i]['incorrect'] = (int)$this->testresults['dvsa'][$dvsacat['section']]['incorrect'];
+            $catresults[$i]['total'] = ((int)$this->testresults['dvsa'][$dvsacat['section']]['correct'] + (int)$this->testresults['dvsa'][$dvsacat['section']]['incorrect'] + (int)$this->testresults['dvsa'][$dvsacat['section']]['unattempted']);
         }
         return $catresults;
     }
