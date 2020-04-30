@@ -11,9 +11,9 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
     
     protected $scriptVar = 'adilearn';
     
-    protected $categories = ['dvsa' => 'dsaband', 'hc' => 'hcsection', 'l2d' => 'ldclessonno'];
-    protected $sortBy = ['dvsa' => 'dsaqposition', 'hc' => 'hcqno', 'l2d' => 'ldcqno'];
-    protected $key = ['dvsa' => 1, 'hc' => ['>=', '0'], 'l2d' => ['>=', '0']];
+    protected $categories = ['l2d' => 'dsaband', 'dvsa' => 'hcsection', 'hc' => 'ldclessonno'];
+    protected $sortBy = ['l2d' => 'dsaqposition', 'dvsa' => 'hcqno', 'hc' => 'ldcqno'];
+    protected $key = ['l2d' => 1, 'dvsa' => ['>=', '0'], 'hc' => ['>=', '0']];
     
     /**
      * Set up all of the components needed to create a Theory Test
@@ -46,8 +46,8 @@ class LearnTest extends \TheoryTest\Car\LearnTest{
         $this->clearSettings();
         $this->chooseStudyQuestions($sectionNo, $type);
         $this->setTest($sectionNo, $type);
-        if($type == 'dvsa'){$title = 'Key Test Questions'; $table = 'dsa_sections';}
-        elseif($type == 'hc'){$title = 'Publication'; $table = 'publications';}
+        if($type == 'l2d'){$title = 'Key Test Questions'; $table = 'dsa_sections';}
+        elseif($type == 'dvsa'){$title = 'Publication'; $table = 'publications';}
         else{$title = 'Module'; $table = 'modules';}
         $sectionInfo = $this->getSectionInfo('adi_'.strtolower($table), $sectionNo);
         if((!isset($sectionInfo['free']) || $sectionInfo['free'] == 0) && method_exists($this->user, 'checkUserAccess')){$this->user->checkUserAccess(NULL, $this->userType);}
