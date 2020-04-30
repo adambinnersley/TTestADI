@@ -9,6 +9,8 @@ use Smarty;
 class LearnTest extends \TheoryTest\Car\LearnTest{    
     protected $userType = 'adi';
     
+    protected $scriptVar = 'adilearn';
+    
     protected $categories = ['dsa' => 'dsaband', 'hc' => 'hcsection', 'l2d' => 'ldclessonno'];
     protected $sortBy = ['dsa' => 'dsaqposition', 'hc' => 'hcqno', 'l2d' => 'ldcqno'];
     protected $key = ['dsa' => 1, 'hc' => ['>=', '0'], 'l2d' => ['>=', '0']];
