@@ -15,7 +15,7 @@ function countdown(seconds){
 function secondstotime(secs){
     var t = new Date(1970,0,1);
     t.setSeconds(secs);
-    var s = t.toTimeString().substr(3,5);
+    var s = t.toTimeString().substr(0,8);
     return s;
 }
 
