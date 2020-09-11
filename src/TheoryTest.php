@@ -36,6 +36,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * Sets the tables
      */
     public function setTables() {
+        $this->testsTable = $this->config->table_adi_theory_tests;
         $this->questionsTable = $this->config->table_adi_questions;
         $this->learningProgressTable = $this->config->table_adi_progress;
         $this->progressTable = $this->config->table_adi_test_progress;
@@ -56,21 +57,6 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
             $this->chooseQuestions($theorytest);
         }
         return $this->buildTest();
-    }
-    
-    /**
-     * Choose some random questions from each of the categories and insert them into the progress database
-     * @param int $testNo This should be the test number you which to get the questions for
-     * @return boolean
-     */
-    protected function chooseQuestions($testNo){
-        $this->db->delete($this->progressTable, ['user_id' => $this->getUserID(), 'test_id' => $testNo]);
-        $questions = $this->db->selectAll($this->questionsTable, ['mt'.$testNo => ['>=', 1]], '*', ['mt'.$testNo => 'ASC']);
-        unset($_SESSION['test'.$this->getTest()]);
-        foreach($questions as $q => $question){
-            $this->questions[($q + 1)] = $question['prim'];
-        }
-        return $this->db->insert($this->progressTable, ['user_id' => $this->getUserID(), 'questions' => serialize($this->questions), 'answers' => serialize([]), 'test_id' => $testNo, 'started' => date('Y-m-d H:i:s'), 'status' => 0, 'type' => $this->getTestType()]);
     }
     
     /**
