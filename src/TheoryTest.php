@@ -6,7 +6,8 @@ use DBAL\Database;
 use Configuration\Config;
 use Smarty;
 
-class TheoryTest extends \TheoryTest\Car\TheoryTest{
+class TheoryTest extends \TheoryTest\Car\TheoryTest
+{
     protected $seconds = 5400;
     protected $section = 'aditheory';
     
@@ -24,9 +25,10 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @param Smarty $layout This needs to be an instance of Smarty Templating
      * @param object $user This should be and instance if the User Class
      * @param false|int $userID If you wish to emulate a user set this value to the users ID else set to false
-     * @param string|false $templateDir If you want to change the template location set this location here else set to false
+     * @param string|false $templateDir Set the template location if different from default else set to false
      */
-    public function __construct(Database $db, Config $config, Smarty $layout, $user, $userID = false, $templateDir = false, $theme = 'bootstrap') {
+    public function __construct(Database $db, Config $config, Smarty $layout, $user, $userID = false, $templateDir = false, $theme = 'bootstrap')
+    {
         parent::__construct($db, $config, $layout, $user, $userID, $templateDir, $theme);
         $this->layout->addTemplateDir(($templateDir === false ? str_replace(basename(__DIR__), '', dirname(__FILE__)).'templates'.DS.$theme : $templateDir), 'aditheory');
         $this->setImagePath(DS.'images'.DS.'adi'.DS);
@@ -35,7 +37,8 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
     /**
      * Sets the tables
      */
-    public function setTables() {
+    public function setTables()
+    {
         $this->testsTable = $this->config->table_adi_theory_tests;
         $this->questionsTable = $this->config->table_adi_questions;
         $this->learningProgressTable = $this->config->table_adi_progress;
@@ -48,12 +51,15 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @param int $theorytest Should be the test number
      * @return string Returns the HTML for a test
      */
-    public function createNewTest($theorytest = 1){
+    public function createNewTest($theorytest = 1)
+    {
         $this->clearSettings();
         $this->setTest($theorytest);
-        if(method_exists($this->user, 'checkUserAccess')){$this->user->checkUserAccess($theorytest, 'adi');}
+        if (method_exists($this->user, 'checkUserAccess')) {
+            $this->user->checkUserAccess($theorytest, 'adi');
+        }
         $this->setTestName();
-        if($this->anyExisting() === false){
+        if ($this->anyExisting() === false) {
             $this->chooseQuestions($theorytest);
         }
         return $this->buildTest();
@@ -61,13 +67,13 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
     
     /**
      * Sets the current test name
-     * @param string $name This should be the name of the test you wish to set it to if left blank will just be Theory Test plus test number
+     * @param string $name The name of the test you want to set it to, if left blank will be Theory Test plus test number
      */
-    protected function setTestName($name = ''){
-        if(!empty($name)){
+    protected function setTestName($name = '')
+    {
+        if (!empty($name)) {
             $this->testName = $name;
-        }
-        else{
+        } else {
             $this->testName = 'ADI Test '.$this->getTest();
         }
     }
@@ -77,7 +83,8 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @param int $prim Should be the question prim number
      * @return array|boolean Returns question data as array if data exists else returns false
      */
-    protected function getQuestionData($prim){
+    protected function getQuestionData($prim)
+    {
         return $this->db->select($this->questionsTable, ['prim' => $prim], ['prim', 'question', 'mark', 'option1', 'option2', 'option3', 'option4', 'answerletters', 'format', 'dsaimageid', 'dsaexplanation']);
     }
 
@@ -87,7 +94,8 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @param int $prim The prim number for the question you are looking for
      * @return int The DVSA Band for a given prim number
      */
-    protected function getDVSABand($prim){
+    protected function getDVSABand($prim)
+    {
         $dvsacat = $this->db->select($this->questionsTable, ['prim' => $prim], ['dsaband']);
         return $dvsacat['dsaband'];
     }
@@ -97,7 +105,8 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @param int $prim The prim number for the question you are looking for
      * @return int The DVSA Band for a given prim number
      */
-    protected function getDVSABandNo($prim){
+    protected function getDVSABandNo($prim)
+    {
         $dvsacat = $this->db->select($this->questionsTable, ['prim' => $prim], ['dsabandno']);
         return $dvsacat['dsabandno'];
     }
@@ -107,7 +116,8 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @param int $prim this is the question unique number
      * @return array Returns that particular prim info
      */
-    public function questionInfo($prim){
+    public function questionInfo($prim)
+    {
         $questioninfo = $this->db->select($this->questionsTable, ['prim' => $prim], ['prim', 'dsaband', 'dsaqposition']);
         $catinfo = $this->db->select($this->dvsaCatTable, ['section' => $questioninfo['dsaband']]);
         
@@ -123,14 +133,14 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * @param int $time This should be the amount of seconds remaining for the current test
      * @return void
      */
-    public function setTime($time, $type = 'taken'){
-        if($time){
-            if($type == 'taken'){
+    public function setTime($time, $type = 'taken')
+    {
+        if ($time) {
+            if ($type == 'taken') {
                 list($hours, $mins, $secs) = explode(':', $time);
                 $time = gmdate('H:i:s', ($this->seconds - (($hours * 60 * 60) + ($mins * 60) + $secs)));
-                $this->db->update($this->progressTable, array('time_'.$type => $time), array('user_id' => $this->getUserID(), 'test_id' => $this->getTest()));
-            }
-            else{
+                $this->db->update($this->progressTable, ['time_'.$type => $time], ['user_id' => $this->getUserID(), 'test_id' => $this->getTest()]);
+            } else {
                 $_SESSION['time_'.$type]['test'.$this->getTest()] = $time;
             }
         }
@@ -140,7 +150,8 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * Returns the number of seconds remaining for the current test
      * @return int Returns the number of seconds remaining for the current test
      */
-    protected function getSeconds(){
+    protected function getSeconds()
+    {
         $time = $this->getTime('remaining');
         list($hours, $minutes, $seconds) = explode(':', $time);
         return (($hours * 3600) + ($minutes * 60) + $seconds);
@@ -150,11 +161,15 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
      * Marks the current test for the user
      * @return void Nothing is returned
      */
-    protected function markTest(){
+    protected function markTest()
+    {
         $this->getQuestions();
-        foreach($this->questions as $prim){
-            if($_SESSION['test'.$this->getTest()][$this->questionNo($prim)]['status'] == 4){$type = 'correct';}
-            else{$type = 'incorrect';}
+        foreach ($this->questions as $prim) {
+            if ($_SESSION['test'.$this->getTest()][$this->questionNo($prim)]['status'] == 4) {
+                $type = 'correct';
+            } else {
+                $type = 'incorrect';
+            }
              
             $dvsa = $this->getDVSABand($prim);
             $dvsano = $this->getDVSABandNo($prim);
@@ -163,8 +178,8 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
         }
         
         $pass = true;
-        foreach($this->testresults['dvsano'] as $value){
-            if($pass !== false && $value['correct'] < $this->passmarkPerCat){
+        foreach ($this->testresults['dvsano'] as $value) {
+            if ($pass !== false && $value['correct'] < $this->passmarkPerCat) {
                 $pass = false;
             }
         }
@@ -179,25 +194,25 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest{
         $this->testresults['percent']['incorrect'] = round(($this->testresults['incorrect'] / $this->testresults['numquestions']) * 100);
         $this->testresults['percent']['flagged'] = round(($this->testresults['flagged'] / $this->testresults['numquestions']) * 100);
         $this->testresults['percent']['incomplete'] = round(($this->testresults['incomplete'] / $this->testresults['numquestions']) * 100);
-        if($this->numCorrect() >= $this->passmark && $pass === true){
+        if ($this->numCorrect() >= $this->passmark && $pass === true) {
             $this->testresults['status'] = 'pass';
             $status = 1;
-        }
-        else{
+        } else {
             $this->testresults['status'] = 'fail';
             $status = 2;
         }
-        $this->db->update($this->progressTable, array('status' => $status, 'results' => serialize($this->testresults), 'complete' => date('Y-m-d H:i:s'), 'totalscore' => $this->numCorrect()), array('user_id' => $this->getUserID(), 'test_id' => $this->getTest(), 'status' => 0));
+        $this->db->update($this->progressTable, ['status' => $status, 'results' => serialize($this->testresults), 'complete' => date('Y-m-d H:i:s'), 'totalscore' => $this->numCorrect()], ['user_id' => $this->getUserID(), 'test_id' => $this->getTest(), 'status' => 0]);
     }
     
     /**
      * Returns an overview of the results to be put into a table
      * @return string Returns an overview of the results to be put into a table
      */
-    protected function createOverviewResults(){
+    protected function createOverviewResults()
+    {
         $dvsaCats = $this->db->selectAll($this->dvsaCatTable);
         $catresults = [];
-        foreach($dvsaCats as $i => $dvsacat){
+        foreach ($dvsaCats as $i => $dvsacat) {
             $catresults[$i]['section'] = $dvsacat['section'];
             $catresults[$i]['name'] = str_replace($dvsacat['section'].'.', '', $dvsacat['name']);
             $catresults[$i]['correct'] = (int)$this->testresults['dvsa'][$dvsacat['section']]['correct'];
