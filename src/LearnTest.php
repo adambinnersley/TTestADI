@@ -50,7 +50,7 @@ class LearnTest extends \TheoryTest\Car\LearnTest
     {
         $this->clearSettings();
         $this->chooseStudyQuestions($sectionNo, $type);
-        $this->setTest($sectionNo, $type);
+        $this->setTest($type.$sectionNo);
         if ($type == 'l2d') {
             $title = 'Key Test Questions';
             $table = 'dsa_sections';
@@ -103,7 +103,6 @@ class LearnTest extends \TheoryTest\Car\LearnTest
     
     /**
      * Returns the current question number
-     * @param int $prim This should be the current questions unique prim number
      * @return int Returns the current question number
      */
     protected function currentQuestion()
