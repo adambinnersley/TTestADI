@@ -46,14 +46,9 @@ class Review extends \TheoryTest\Car\Review
             if ($tables['keyquestion'] === true) {
                 $this->where = ['includedintest' => 1];
             }
-            if (is_array($tables)) {
-                $this->layout->assign('table', $this->buildReviewTable($tables['table'], $tables['sectionNo'], $tables['name'], $tables['section']), true);
-                $this->layout->assign('table'.($i + 1).'name', $tables['name'], true);
-                $this->layout->assign($tables['section'].'section', $this->layout->fetch('table-learning.tpl'), true);
-            } elseif ($tables === true) {
-                $this->layout->assign('cases', $this->reviewCaseStudy(), true);
-                $this->layout->assign('reviewsection', $this->layout->fetch('table-case.tpl'), true);
-            }
+            $this->layout->assign('table', $this->buildReviewTable($tables['table'], $tables['sectionNo'], $tables['name'], $tables['section']), true);
+            $this->layout->assign('table'.($i + 1).'name', $tables['name'], true);
+            $this->layout->assign($tables['section'].'section', $this->layout->fetch('table-learning.tpl'), true);
             if ($tables['keyquestion'] === true) {
                 $this->where = [];
             }
