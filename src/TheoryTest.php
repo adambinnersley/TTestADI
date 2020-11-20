@@ -139,7 +139,8 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest
             if ($type == 'taken') {
                 list($hours, $mins, $secs) = explode(':', $time);
                 $time = gmdate('H:i:s', ($this->seconds - (($hours * 60 * 60) + ($mins * 60) + $secs)));
-                $this->db->update($this->progressTable, ['time_'.$type => $time], ['user_id' => $this->getUserID(), 'test_id' => $this->getTest()]);
+                $this->userProgress['time_taken'] = $time;
+                $this->db->update($this->progressTable, ['time_'.$type => $time], ['user_id' => $this->getUserID(), 'test_id' => $this->getTest(), 'current_test' => 1]);
             } else {
                 $_SESSION['time_'.$type]['test'.$this->getTest()] = $time;
             }
@@ -159,9 +160,10 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest
     
     /**
      * Marks the current test for the user
+     * @param int|false $time The time to set as taken for the current test of false to not update
      * @return void Nothing is returned
      */
-    protected function markTest()
+    protected function markTest($time = false)
     {
         $this->getQuestions();
         foreach ($this->questions as $prim) {
@@ -201,7 +203,12 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest
             $this->testresults['status'] = 'fail';
             $status = 2;
         }
-        $this->db->update($this->progressTable, ['status' => $status, 'results' => serialize($this->testresults), 'complete' => date('Y-m-d H:i:s'), 'totalscore' => $this->numCorrect()], ['user_id' => $this->getUserID(), 'test_id' => $this->getTest(), 'status' => 0]);
+        if ($time !== false) {
+            list($hours, $mins, $secs) = explode(':', $time);
+            $newtime = gmdate('H:i:s', ($this->seconds - (($hours * 60 * 60) + ($mins * 60) + $secs)));
+            $this->userProgress['time_taken'] = $newtime;
+        }
+        $this->db->update($this->progressTable, array_merge(['status' => $status, 'results' => serialize($this->testresults), 'complete' => date('Y-m-d H:i:s'), 'totalscore' => $this->numCorrect()], ($time !== false ? ['time_taken' => $newtime] : [])), ['user_id' => $this->getUserID(), 'test_id' => $this->getTest(), 'status' => 0, 'current_test' => 1]);
     }
     
     /**
