@@ -38,16 +38,16 @@ class RandomTest extends TheoryTest
     protected function chooseQuestions($testNo = 6)
     {
         $this->db->delete($this->progressTable, ['user_id' => $this->getUserID(), 'test_id' => $this->testNo]);
-        $questions = $this->db->query("(SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '1' AND `includedintest` = '1' LIMIT 25)
-UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '2a' AND `includedintest` = '1' LIMIT 5)
-UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '2b' AND `includedintest` = '1' LIMIT 10)
-UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '2c' AND `includedintest` = '1' LIMIT 5)
-UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '2d' AND `includedintest` = '1' LIMIT 5)
-UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '3a' AND `includedintest` = '1' LIMIT 10)
-UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '3b' AND `includedintest` = '1' LIMIT 5)
-UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '3c' AND `includedintest` = '1' LIMIT 10)
-UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '4a' AND `includedintest` = '1' LIMIT 10)
-UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '4b' AND `includedintest` = '1' LIMIT 15) ORDER BY RAND();");
+        $questions = $this->db->query("(SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '1' AND `includedintest` = '1' ORDER BY RAND() LIMIT 25)
+UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '2a' AND `includedintest` = '1' ORDER BY RAND() LIMIT 5)
+UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '2b' AND `includedintest` = '1' ORDER BY RAND() LIMIT 10)
+UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '2c' AND `includedintest` = '1' ORDER BY RAND() LIMIT 5)
+UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '2d' AND `includedintest` = '1' ORDER BY RAND() LIMIT 5)
+UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '3a' AND `includedintest` = '1' ORDER BY RAND() LIMIT 10)
+UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '3b' AND `includedintest` = '1' ORDER BY RAND() LIMIT 5)
+UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '3c' AND `includedintest` = '1' ORDER BY RAND() LIMIT 10)
+UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '4a' AND `includedintest` = '1' ORDER BY RAND() LIMIT 10)
+UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '4b' AND `includedintest` = '1' ORDER BY RAND() LIMIT 15) ORDER BY RAND();");
          
         unset($_SESSION['test'.$this->getTest()]);
         foreach ($questions as $q => $question) {
