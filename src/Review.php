@@ -9,8 +9,6 @@ class Review extends \TheoryTest\Car\Review
     
     public $noOfTests = 6;
     
-    protected $testType = 'ADI';
-    
     /**
      * Sets the tables
      */
