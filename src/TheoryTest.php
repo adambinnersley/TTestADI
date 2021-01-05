@@ -16,8 +16,6 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest
     
     protected $scriptVar = 'adi';
     
-    protected $testType = 'adi';
-    
     /**
      * Set up all of the components needed to create a Theory Test
      * @param Database $db This should be an instance of Database

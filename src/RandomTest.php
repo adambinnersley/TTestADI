@@ -53,6 +53,6 @@ UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '4b' AND
         foreach ($questions as $q => $question) {
             $this->questions[($q + 1)] = $question['prim'];
         }
-        return $this->db->insert($this->progressTable, ['user_id' => $this->getUserID(), 'questions' => serialize($this->questions), 'answers' => serialize([]), 'test_id' => $this->testNo, 'started' => date('Y-m-d H:i:s'), 'status' => 0, 'type' => $this->getTestType()]);
+        return $this->db->insert($this->progressTable, ['user_id' => $this->getUserID(), 'questions' => serialize($this->questions), 'answers' => serialize([]), 'test_id' => $this->testNo, 'started' => date('Y-m-d H:i:s'), 'status' => 0]);
     }
 }
