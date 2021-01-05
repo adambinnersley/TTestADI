@@ -153,7 +153,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest
     {
         $time = $this->getTime('remaining');
         list($hours, $minutes, $seconds) = explode(':', $time);
-        return (($hours * 3600) + ($minutes * 60) + $seconds);
+        return ((intval($hours) * 3600) + (intval($minutes) * 60) + intval($seconds));
     }
     
     /**
