@@ -201,7 +201,7 @@ class TheoryTest extends \TheoryTest\Car\TheoryTest
             $this->testresults['status'] = 'fail';
             $status = 2;
         }
-        if ($time !== false) {
+        if ($time !== false && preg_match('~[0-9]+~', $time)) {
             list($hours, $mins, $secs) = explode(':', $time);
             $newtime = gmdate('H:i:s', ($this->seconds - (($hours * 60 * 60) + ($mins * 60) + $secs)));
             $this->userProgress['time_taken'] = $newtime;
