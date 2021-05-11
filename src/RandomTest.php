@@ -5,7 +5,7 @@ namespace TheoryTest\ADI;
 class RandomTest extends TheoryTest
 {
 
-    protected $testNo = 6;
+    protected $testNo = 99;
     protected $scriptVar = 'adirandom';
     
     /**
@@ -26,16 +26,16 @@ class RandomTest extends TheoryTest
      * @param int $theorytest The test number you wish to view the report for
      * @return string Returns the HTML for the test report for the given test ID
      */
-    public function createTestReport($theorytest = 6)
+    public function createTestReport($theorytest = 99)
     {
-        return parent::createTestReport(6);
+        return parent::createTestReport(99);
     }
     
     /**
      * Picks some random questions for the ADI test
      * @return boolean If the questions have been selected and added to the database will return true else returns false
      */
-    protected function chooseQuestions($testNo = 6)
+    protected function chooseQuestions($testNo = 99)
     {
         $this->db->delete($this->progressTable, ['user_id' => $this->getUserID(), 'test_id' => $this->testNo]);
         $questions = $this->db->query("(SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '1' AND `includedintest` = '1' ORDER BY RAND() LIMIT 25)
