@@ -47,7 +47,7 @@ UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '3a' AND
 UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '3b' AND `includedintest` = '1' ORDER BY RAND() LIMIT 5)
 UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '3c' AND `includedintest` = '1' ORDER BY RAND() LIMIT 10)
 UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '4a' AND `includedintest` = '1' ORDER BY RAND() LIMIT 10)
-UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '4b' AND `includedintest` = '1' ORDER BY RAND() LIMIT 15) ORDER BY RAND();");
+UNION (SELECT `prim` FROM `".$this->questionsTable."` WHERE `dsaband` = '4b' AND `includedintest` = '1' ORDER BY RAND() LIMIT 15) ORDER BY RAND();", [], false);
          
         unset($_SESSION['test'.$this->getTest()]);
         foreach ($questions as $q => $question) {
